@@ -4,6 +4,9 @@
 
 **Baseline:** `hsoliwal/commons-compress` `master` @ `0c20dede0dfa566d7744583c1df384d43cc21bfa` (`1.29.0-SNAPSHOT` in `pom.xml`). **Experiment source** is this fork; **recipe and convergence owner** is the private Synexia workspace; **qualified output destination** is `hsoliwal/M3jdk21` (standalone Java 21 SDK).
 
+**Language compatibility gate:** the existing Commons Compress POM targets **Java 8 source/bytecode**. Keep upstream production sources and API Java 8-compatible while measuring their behavior on JDK21; isolate Java 21-only optimizations, JMH benchmarks and JNI adapters in explicit opt-in experimental Maven profiles/modules until they are qualified for M3JDK21. Do not silently raise Commons Compress's public minimum JDK version.
+
+
 ## Non-negotiable contract
 
 1. **Recipe first.** Before *any product implementation change*, define one bounded behavioral atom, capture original source SHA, public method/stream contract, exact inputs, failure semantics, tests, license/provenance, and benchmark hypotheses. Implement the change via a versioned Maven/OpenRewrite recipe in Synexia; replay the same recipe against a pinned fork commit; require an exact postimage and fixed-point rerun. Never hand-edit a codec file as a substitute for fixing the recipe.
