@@ -23,7 +23,7 @@ java -cp target/m3-lz77-probe \
   org.apache.commons.compress.compressors.lz77support.M3Lz77CandidateProbe
 ```
 
-The self-contained probe runs 20,000 deterministic generated chain comparisons across incompressible, uniform, repeating and collision-like byte distributions. It requires identical winner length/start and records logical byte comparisons. A locally run Java 21 `javac -source 8 -target 8` candidate-equivalent version passed all 20,000 cases: baseline 1,054,490 byte comparisons versus candidate 922,226. **The exact committed file has not yet passed repository Maven, Checkstyle, JUnit, or CI.** This diagnostic is not an interoperability oracle and does not establish compressed-byte parity or throughput.
+The companion `M3Lz77CandidateProbeTest` also invokes this oracle in the regular JUnit 5 test suite (execution pending). The self-contained probe runs 20,000 deterministic generated chain comparisons across incompressible, uniform, repeating and collision-like byte distributions. It requires identical winner length/start and records logical byte comparisons. A locally run Java 21 `javac -source 8 -target 8` candidate-equivalent version passed all 20,000 cases: baseline 1,054,490 byte comparisons versus candidate 922,226. **The exact committed file has not yet passed repository Maven, Checkstyle, JUnit, or CI.** This diagnostic is not an interoperability oracle and does not establish compressed-byte parity or throughput.
 
 ## Benchmarks and acceptance requirements
 
