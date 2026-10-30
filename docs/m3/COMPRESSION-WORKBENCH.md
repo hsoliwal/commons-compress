@@ -35,3 +35,9 @@ The companion `M3Lz77CandidateProbeTest` also invokes this oracle in the regular
 **Promotion is held:** do not directly merge this scratch algorithm into `java.util.zip`, `libzip`, or GPLv2-only OpenJDK files. Reimplement algorithmic ideas separately when required by the target license; preserve origin and notice obligations for copied licensed expression.
 
 No `java.util.zip` code has been changed. Future source optimizations belong in small, reviewable experimental commits, with serial per-file changes and proof before promotion.
+
+## Focused GitHub Actions qualification (candidate only)
+
+The public scratch branch additionally carries `.github/workflows/m3-lz77-candidate-20261030.yml`. It runs stock Java 21 `javac --release 8 -Xlint:all,-options -Werror`, the 20,000-case oracle, and the existing `LZ77CompressorTest` plus `M3Lz77CandidateProbeTest` through Maven. This augments rather than replaces the parent Apache workflow. A configured workflow is **not a passing workflow**: until a real result is observed, report `CI_PENDING`. No main-source LZ77 optimization has been enabled.
+
+The single-source production candidate is held in the **private** Synexia recipe crate `m3-commons-compress-lz77-match-20261030`; the Java source template and hash-pinned transformation are deliberately not copied into this public fork. A reviewable public postimage is permitted only after that private recipe is executed and the byte-for-byte original/candidate compression corpus is qualified.
