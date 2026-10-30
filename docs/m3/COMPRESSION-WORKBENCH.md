@@ -17,13 +17,13 @@ From repository root, with any Java 8+ compiler:
 
 ```sh
 mkdir -p target/m3-lz77-probe
-javac --release 8 -d target/m3-lz77-probe \
+javac -source 8 -target 8 -d target/m3-lz77-probe \
   src/test/java/org/apache/commons/compress/compressors/lz77support/M3Lz77CandidateProbe.java
 java -cp target/m3-lz77-probe \
   org.apache.commons.compress.compressors.lz77support.M3Lz77CandidateProbe
 ```
 
-The self-contained probe runs 20,000 deterministic generated chain comparisons across incompressible, uniform, repeating and collision-like byte distributions. It requires identical winner length/start and records logical byte comparisons. A locally run Java 21 `javac --release 8` candidate-equivalent version passed all 20,000 cases: baseline 1,054,490 byte comparisons versus candidate 922,226. **The exact committed file has not yet passed repository Maven, Checkstyle, JUnit, or CI.** This diagnostic is not an interoperability oracle and does not establish compressed-byte parity or throughput.
+The self-contained probe runs 20,000 deterministic generated chain comparisons across incompressible, uniform, repeating and collision-like byte distributions. It requires identical winner length/start and records logical byte comparisons. A locally run Java 21 `javac -source 8 -target 8` candidate-equivalent version passed all 20,000 cases: baseline 1,054,490 byte comparisons versus candidate 922,226. **The exact committed file has not yet passed repository Maven, Checkstyle, JUnit, or CI.** This diagnostic is not an interoperability oracle and does not establish compressed-byte parity or throughput.
 
 ## Benchmarks and acceptance requirements
 
