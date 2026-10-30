@@ -1,0 +1,53 @@
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Public scratch-workbench tests only. No Synexia private recipes are copied.
+name: M3 LZ77 candidate oracle
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/m3-lz77-candidate-20261030.yml'
+      - 'src/main/java/org/apache/commons/compress/compressors/lz77support/**'
+      - 'src/test/java/org/apache/commons/compress/compressors/lz77support/**'
+      - 'docs/m3/**'
+  push:
+    branches:
+      - 'm3/compression-workbench-20261030'
+
+permissions:
+  contents: read
+
+jobs:
+  lz77-candidate:
+    name: Java 8 candidate oracle and Commons Compress JUnit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout pinned GitHub source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Java 21
+        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile standalone Java 8-compatible candidate with strict warnings
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p target/m3-lz77-oracle
+          javac --release 8 -Xlint:all,-options -Werror -d target/m3-lz77-oracle \
+            src/test/java/org/apache/commons/compress/compressors/lz77support/M3Lz77CandidateProbe.java
+          java -cp target/m3-lz77-oracle \
+            org.apache.commons.compress.compressors.lz77support.M3Lz77CandidateProbe
+      - name: Execute original LZ77 and candidate JUnit tests through Maven
+        shell: bash
+        run: |
+          set -euo pipefail
+          mvn -B -ntp -Dtest=LZ77CompressorTest,M3Lz77CandidateProbeTest \
+            -Dsurefire.failIfNoSpecifiedTests=false test
